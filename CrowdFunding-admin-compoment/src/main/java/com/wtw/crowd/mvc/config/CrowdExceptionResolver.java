@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.wtw.crowd.constraint.CrowdConstraint;
 import com.wtw.crowd.util.CrowdUtil;
 import com.wtw.crowd.util.ResultEntity;
 
@@ -45,7 +46,7 @@ public class CrowdExceptionResolver {
 		}
 
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("exception", exception);
+		mv.addObject(CrowdConstraint.ATTR_NAME_EXCEPTION, exception);
 		mv.setViewName(viewName);
 		
 		return mv;

@@ -8,6 +8,8 @@ public class CrowdConstraint {
 	public static final String MESSAGE_LOGIN_ACCT_ALREADY_IN_USE = "账号已经被使用！";
 	
 	public static final String MESSAGE_ACCESS_FORBIDDEN = "请登录！";
+
+	public static final String MESSAGE_STRING_INVALIDATE = "字符串不合法！请不要传入空字符串!";
 	
 	
 }

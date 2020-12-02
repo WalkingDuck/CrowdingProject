@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.wtw.crowd.constraint.CrowdConstraint;
+import com.wtw.crowd.exception.LoginFailedException;
 import com.wtw.crowd.util.CrowdUtil;
 import com.wtw.crowd.util.ResultEntity;
 
@@ -19,14 +20,23 @@ import com.wtw.crowd.util.ResultEntity;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+	@ExceptionHandler(LoginFailedException.class)
+	public ModelAndView resolveLoginFailedException(LoginFailedException exception, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String viewName = "admin-login";
+		return commonResolver(viewName, exception, request, response);
+	}
+
 	@ExceptionHandler(NullPointerException.class)
 	public ModelAndView resolveNullPointerException(NullPointerException exception, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		
+
 		return commonResolver("system-error", exception, request, response);
 	}
-	
-	private ModelAndView commonResolver(String viewName, Exception exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+	private ModelAndView commonResolver(String viewName, Exception exception, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		boolean requestType = CrowdUtil.judgeRequestType(request);
 		String message = exception.getMessage();
 
@@ -37,18 +47,18 @@ public class CrowdExceptionResolver {
 			// 转换成json
 			Gson gson = new Gson();
 			String json = gson.toJson(resultEntity);
-			
-			//返回响应
+
+			// 返回响应
 			response.getWriter().write(json);
 
-			//上面用response进行了响应 所以不返回ModelAndView
+			// 上面用response进行了响应 所以不返回ModelAndView
 			return null;
 		}
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject(CrowdConstraint.ATTR_NAME_EXCEPTION, exception);
 		mv.setViewName(viewName);
-		
+
 		return mv;
 	}
 }

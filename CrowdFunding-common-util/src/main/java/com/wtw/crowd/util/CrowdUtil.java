@@ -61,7 +61,7 @@ public class CrowdUtil {
 			
 			// 将biginteger转换为16进制字符串
 			int radix = 16;
-			String encoded = bigInteger.toString(radix);
+			String encoded = bigInteger.toString(radix).toUpperCase();
 			
 			return encoded;
 			

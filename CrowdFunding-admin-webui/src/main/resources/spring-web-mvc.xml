@@ -32,6 +32,7 @@
 	
 	<!-- 配置view-controller -->
 	<mvc:view-controller path="admin/to/login/page.html" view-name="admin-login"/>
+	<mvc:view-controller path="admin/to/main/page.html" view-name="admin-main"/>
 	
 	<!-- 配置静态资源映射 -->
 	<mvc:resources location="/jquery/" mapping="/jquery/**"/>

@@ -18,6 +18,16 @@ public class AdminHandler {
 	@Autowired
 	private AdminService adminService;
 
+	@RequestMapping("/admin/do/logout.html")
+	public String doLogout(HttpSession session) {
+		
+		//让session失效
+		session.invalidate();
+		
+		//返回登录页面
+		return "redirect:/admin/to/login/page.html";		
+	}
+	
 	@RequestMapping("/admin/do/login.html")
 	public String doLogin(@RequestParam("loginAcct") String loginAcct, @RequestParam("userPswd") String userPswd,
 			HttpSession session) {
@@ -32,6 +42,6 @@ public class AdminHandler {
 		
 		//请求转发会导致每刷新一次页面就要重新提交一次表单影响性能
 		//所以推荐使用重定向这样 只需要提交一次表单
-		return "redirect:admin/to/main/page.html";
+		return "redirect:/admin/to/main/page.html";
 	}
 }

@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 配置自动扫描的包 -->
-	<context:component-scan base-package="com.wtw.crowd.mvc"/>
-	
+	<context:component-scan base-package="com.wtw.crowd.mvc" />
+
 	<!-- 配置mvc的注解驱动 -->
-	<mvc:annotation-driven/>
-	
+	<mvc:annotation-driven />
+
 	<!-- 视图解析器 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="viewResolver">
 		<property name="prefix" value="/WEB-INF/"></property>	<!-- 放在WEB-INF下防止浏览器访问 -->
 		<property name="suffix" value=".jsp"></property>
 	</bean>
-	
+
 	<!-- 配置基于xml的异常映射 -->
-	<bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<bean id="simpleMappingExceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<!-- 建立异常和异常页面的映射关系 -->
 				<!-- system-error会拼前后缀解析视图 -->
-				<prop key="java.lang.Exception">system-error</prop>			
+				<prop key="java.lang.Exception">system-error</prop>
 			</props>
 		</property>
-	</bean>	
-	
+	</bean>
+
 	<!-- 配置view-controller -->
-	<mvc:view-controller path="admin/to/login/page.html" view-name="admin-login"/>
-	<mvc:view-controller path="admin/to/main/page.html" view-name="admin-main"/>
-	
+	<mvc:view-controller path="admin/to/login/page.html"
+		view-name="admin-login" />
+	<mvc:view-controller path="admin/to/main/page.html"
+		view-name="admin-main" />
+
+	<!-- 注册拦截器 -->
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 配置拦截路径 /**表示拦截所有路径 -->
+			<mvc:mapping path="/**"/>
+			
+			<!-- 配置放行的请求路径 -->
+			<!-- 请求登陆页面不能拦截 -->
+			<mvc:exclude-mapping path="/admin/to/login/page.html" />
+			
+			<!-- 登录请求不能拦截 -->
+			<mvc:exclude-mapping path="/admin/do/login.html" />
+			
+			<!-- 登出请求也没有必要拦截 -->
+			<mvc:exclude-mapping path="/admin/do/logout.html" />
+			<bean class="com.wtw.crowd.mvc.interceptor.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
 	<!-- 配置静态资源映射 -->
-	<mvc:resources location="/jquery/" mapping="/jquery/**"/>
-	<mvc:resources location="/bootstrap/" mapping="/bootstrap/**"/>
-	<mvc:resources location="/css/" mapping="/css/**"/>
-	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
-	<mvc:resources location="/img/" mapping="/img/**"/>
-	<mvc:resources location="/script/" mapping="/script/**"/>
-	<mvc:resources location="/ztree/" mapping="/ztree/**"/>
-	<mvc:resources location="/layer/" mapping="/layer/**"/>
-	
-	
+	<mvc:resources location="/jquery/" mapping="/jquery/**" />
+	<mvc:resources location="/bootstrap/" mapping="/bootstrap/**" />
+	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/fonts/" mapping="/fonts/**" />
+	<mvc:resources location="/img/" mapping="/img/**" />
+	<mvc:resources location="/script/" mapping="/script/**" />
+	<mvc:resources location="/ztree/" mapping="/ztree/**" />
+	<mvc:resources location="/layer/" mapping="/layer/**" />
+
+
 </beans>

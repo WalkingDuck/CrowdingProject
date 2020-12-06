@@ -15,14 +15,11 @@
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="stylesheet" href="css/login.css">
+<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="layer/layer.js"></script>
 <style>
 </style>
-
-<script type="text/javascript">
-	$("#goBack").click(function() {
-		window.history.back(); //返回上一步
-	})
-</script>
 
 </head>
 <body>
@@ -50,9 +47,11 @@
 		<button id="goBack">点我返回上一步</button>
 
 	</div>
-	<script src="jquery/jquery-2.1.1.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="layer/layer.js"></script>
 
+	<script type="text/javascript">
+		$("#goBack").click(function() {
+			window.history.back(); //返回上一步
+		})
+	</script>
 </body>
 </html>

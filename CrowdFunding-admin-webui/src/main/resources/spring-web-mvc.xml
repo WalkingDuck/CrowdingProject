@@ -51,6 +51,14 @@
 			
 			<!-- 登录请求不能拦截 -->
 			<mvc:exclude-mapping path="/admin/do/login.html" />
+			<mvc:exclude-mapping path="/jquery/**" />
+			<mvc:exclude-mapping path="/bootstrap/**" />
+			<mvc:exclude-mapping path="/css/**" />
+			<mvc:exclude-mapping path="/fonts/**" />
+			<mvc:exclude-mapping path="/img/**" />
+			<mvc:exclude-mapping path="/script/**" />
+			<mvc:exclude-mapping path="/ztree/**" />
+			<mvc:exclude-mapping path="/layer/**" />
 			
 			<!-- 登出请求也没有必要拦截 -->
 			<mvc:exclude-mapping path="/admin/do/logout.html" />

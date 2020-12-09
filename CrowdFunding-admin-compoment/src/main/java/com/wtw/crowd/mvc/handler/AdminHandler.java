@@ -21,7 +21,7 @@ public class AdminHandler {
 	private AdminService adminService;
 
 	@RequestMapping("/admin/get/page.html")
-	public String getPageInfo(@RequestParam("keyword") String key,
+	public String getPageInfo(@RequestParam(value="keyword", defaultValue="") String key,
 			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize, ModelMap modelMap) {
 		

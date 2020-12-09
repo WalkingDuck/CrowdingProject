@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wtw.crowd.constraint.CrowdConstraint;
 import com.wtw.crowd.entity.Admin;
 import com.wtw.crowd.entity.AdminExample;
@@ -76,6 +78,21 @@ public class AdminServiceImpl implements AdminService {
 		// 密码一致就返回对象
 
 		return admin;
+	}
+
+	@Override
+	public PageInfo<Admin> getPageInfo(String key, Integer pageNum, Integer pageSize) {
+
+		// 开启分页功能
+		PageHelper.startPage(pageNum, pageSize);
+		
+		// 执行查询
+		List<Admin> list = adminMapper.selectAdminByKeyword(key);
+		
+		// 封装pageInfo
+		PageInfo<Admin> pageInfo = new PageInfo<>(list);
+		
+		return pageInfo;
 	}
 
 }

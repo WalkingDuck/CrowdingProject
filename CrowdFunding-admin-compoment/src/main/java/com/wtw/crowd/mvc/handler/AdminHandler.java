@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,18 +21,50 @@ public class AdminHandler {
 	@Autowired
 	private AdminService adminService;
 
+	/**
+	 * 新增用户
+	 */
+	@RequestMapping("/admin/save.html")
+	public String saveAdmin(Admin admin) {
+		
+		adminService.saveAdmin(admin);
+		
+		// 确保管理员可以看见新增的用户 -> 分页插件会将Integer.MAX_VALUE转换成合法的最大页码
+		return "redirect:/admin/get/page.html?pageNum=" + Integer.MAX_VALUE;
+	}
+	
+	/**
+		删除用户请求
+	 */
+	@RequestMapping("/admin/remove/{adminId}/{pageNum}/{keyword}.html")
+	public String remove(@PathVariable("adminId") Integer adminId, @PathVariable("pageNum") Integer pageNum,
+			@PathVariable("keyword") String keyword) {
+
+		// 执行删除
+		adminService.remove(adminId);
+
+		// 跳转
+		return "redirect:/admin/get/page.html?pageNum=" + pageNum + "&keyword=" + keyword;
+	}
+
+	/**
+	 * 人员维护请求
+	 */
 	@RequestMapping("/admin/get/page.html")
-	public String getPageInfo(@RequestParam(value="keyword", defaultValue="") String key,
+	public String getPageInfo(@RequestParam(value = "keyword", defaultValue = "") String key,
 			@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize, ModelMap modelMap) {
-		
+
 		PageInfo<Admin> pageInfo = adminService.getPageInfo(key, pageNum, pageSize);
-		
+
 		modelMap.addAttribute(CrowdConstraint.ATTR_NAME_PAGE_INFO, pageInfo);
-		
+
 		return "admin-page";
 	}
 
+	/**
+	 * 用户登出请求
+	 */
 	@RequestMapping("/admin/do/logout.html")
 	public String doLogout(HttpSession session) {
 
@@ -42,6 +75,9 @@ public class AdminHandler {
 		return "redirect:/admin/to/login/page.html";
 	}
 
+	/**
+	 * 用户登录请求
+	 */
 	@RequestMapping("/admin/do/login.html")
 	public String doLogin(@RequestParam("loginAcct") String loginAcct, @RequestParam("userPswd") String userPswd,
 			HttpSession session) {

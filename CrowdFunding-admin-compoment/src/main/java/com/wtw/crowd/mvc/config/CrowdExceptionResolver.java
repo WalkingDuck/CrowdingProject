@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.wtw.crowd.constraint.CrowdConstraint;
+import com.wtw.crowd.exception.LoginAcctAlreadyInUseException;
 import com.wtw.crowd.exception.LoginFailedException;
 import com.wtw.crowd.util.CrowdUtil;
 import com.wtw.crowd.util.ResultEntity;
@@ -20,6 +21,14 @@ import com.wtw.crowd.util.ResultEntity;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+	@ExceptionHandler(LoginAcctAlreadyInUseException.class)
+	public ModelAndView resolveLoginAcctAlreadyInUseException(LoginAcctAlreadyInUseException exception, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String viewName = "admin-add";
+		return commonResolver(viewName, exception, request, response);
+	}
+	
 	@ExceptionHandler(LoginFailedException.class)
 	public ModelAndView resolveLoginFailedException(LoginFailedException exception, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

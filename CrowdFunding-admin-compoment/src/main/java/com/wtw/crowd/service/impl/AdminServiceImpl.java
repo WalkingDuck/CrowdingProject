@@ -1,9 +1,12 @@
 package com.wtw.crowd.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -12,6 +15,7 @@ import com.wtw.crowd.constraint.CrowdConstraint;
 import com.wtw.crowd.entity.Admin;
 import com.wtw.crowd.entity.AdminExample;
 import com.wtw.crowd.entity.AdminExample.Criteria;
+import com.wtw.crowd.exception.LoginAcctAlreadyInUseException;
 import com.wtw.crowd.exception.LoginFailedException;
 import com.wtw.crowd.mapper.AdminMapper;
 import com.wtw.crowd.service.api.AdminService;
@@ -25,7 +29,27 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void saveAdmin(Admin admin) {
-		adminMapper.insert(admin);
+		
+		// 对密码进行加密
+		String userPswd = admin.getUserPswd();
+		String md5 = CrowdUtil.md5(userPswd);
+		admin.setUserPswd(md5);
+		
+		// 生成创建时间
+		Date date = new Date();
+		String pattern = "yyyy-MM-dd hh:mm:ss";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		String createTime = simpleDateFormat.format(date);
+		admin.setCreateTime(createTime);
+		
+		try {
+			// 插入用户
+			adminMapper.insert(admin);
+		} catch(Exception e) {
+			if(e instanceof DuplicateKeyException) {
+				throw new LoginAcctAlreadyInUseException(CrowdConstraint.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
+			}
+		}
 	}
 
 	@Override
@@ -93,6 +117,11 @@ public class AdminServiceImpl implements AdminService {
 		PageInfo<Admin> pageInfo = new PageInfo<>(list);
 		
 		return pageInfo;
+	}
+
+	@Override
+	public void remove(Integer adminId) {
+		adminMapper.deleteByPrimaryKey(adminId);
 	}
 
 }

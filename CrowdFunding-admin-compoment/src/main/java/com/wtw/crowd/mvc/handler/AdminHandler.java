@@ -22,19 +22,49 @@ public class AdminHandler {
 	private AdminService adminService;
 
 	/**
+	 * 更新用户
+	 */
+	@RequestMapping("/admin/update.html")
+	public String update(Admin admin, @RequestParam("pageNum") Integer pageNum,
+			@RequestParam("keyword") String keyword) {
+
+		adminService.update(admin);
+		
+		// 更新完成，跳转
+		return "redirect:/admin/get/page.html?pageNum=" + pageNum + "&keyword=" + keyword;
+	}
+
+	/**
+	 * 用户发起更新请求 获取到要更新的admin对象然后跳转到更新页面
+	 */
+	@RequestMapping("/admin/to/edit/page.html")
+	public String toEditPage(@RequestParam("adminId") Integer adminId, @RequestParam("pageNum") Integer pageNum,
+			@RequestParam("keyword") String keyWord, ModelMap modelMap) {
+
+		// 获取到admin对象
+		Admin admin = adminService.getAdminById(adminId);
+
+		// 将admin对象存入modelMap中
+		modelMap.addAttribute("admin", admin);
+
+		// 跳转到更新页面
+		return "admin-edit";
+	}
+
+	/**
 	 * 新增用户
 	 */
 	@RequestMapping("/admin/save.html")
 	public String saveAdmin(Admin admin) {
-		
+
 		adminService.saveAdmin(admin);
-		
+
 		// 确保管理员可以看见新增的用户 -> 分页插件会将Integer.MAX_VALUE转换成合法的最大页码
 		return "redirect:/admin/get/page.html?pageNum=" + Integer.MAX_VALUE;
 	}
-	
+
 	/**
-		删除用户请求
+	 * 删除用户请求
 	 */
 	@RequestMapping("/admin/remove/{adminId}/{pageNum}/{keyword}.html")
 	public String remove(@PathVariable("adminId") Integer adminId, @PathVariable("pageNum") Integer pageNum,

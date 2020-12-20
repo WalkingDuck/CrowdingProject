@@ -1,7 +1,7 @@
 package com.wtw.crowd.exception;
 
 /**
- * 检测到登录账号重复时 抛出本异常
+ * 检测到loginAcct已经被使用时 抛出本异常(本异常用于新增用户请求)
  *
  */
 public class LoginAcctAlreadyInUseException extends RuntimeException {

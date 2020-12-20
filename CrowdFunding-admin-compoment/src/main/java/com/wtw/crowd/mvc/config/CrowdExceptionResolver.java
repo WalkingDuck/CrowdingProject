@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.wtw.crowd.constraint.CrowdConstraint;
 import com.wtw.crowd.exception.LoginAcctAlreadyInUseException;
+import com.wtw.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import com.wtw.crowd.exception.LoginFailedException;
 import com.wtw.crowd.util.CrowdUtil;
 import com.wtw.crowd.util.ResultEntity;
@@ -21,6 +22,14 @@ import com.wtw.crowd.util.ResultEntity;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+	@ExceptionHandler(LoginAcctAlreadyInUseForUpdateException.class)
+	public ModelAndView resolveLoginAcctAlreadyInUseException(LoginAcctAlreadyInUseForUpdateException exception, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String viewName = "system-error";
+		return commonResolver(viewName, exception, request, response);
+	}
+	
 	@ExceptionHandler(LoginAcctAlreadyInUseException.class)
 	public ModelAndView resolveLoginAcctAlreadyInUseException(LoginAcctAlreadyInUseException exception, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

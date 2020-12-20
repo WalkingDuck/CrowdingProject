@@ -16,6 +16,7 @@ import com.wtw.crowd.entity.Admin;
 import com.wtw.crowd.entity.AdminExample;
 import com.wtw.crowd.entity.AdminExample.Criteria;
 import com.wtw.crowd.exception.LoginAcctAlreadyInUseException;
+import com.wtw.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import com.wtw.crowd.exception.LoginFailedException;
 import com.wtw.crowd.mapper.AdminMapper;
 import com.wtw.crowd.service.api.AdminService;
@@ -47,6 +48,7 @@ public class AdminServiceImpl implements AdminService {
 			adminMapper.insert(admin);
 		} catch(Exception e) {
 			if(e instanceof DuplicateKeyException) {
+				// 账号被使用
 				throw new LoginAcctAlreadyInUseException(CrowdConstraint.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
 			}
 		}
@@ -122,6 +124,25 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void remove(Integer adminId) {
 		adminMapper.deleteByPrimaryKey(adminId);
+	}
+
+	@Override
+	public Admin getAdminById(Integer adminId) {
+		// TODO Auto-generated method stub
+		return adminMapper.selectByPrimaryKey(adminId);
+	}
+
+	@Override
+	public void update(Admin admin) {
+		// TODO Auto-generated method stub
+		try {
+			adminMapper.updateByPrimaryKeySelective(admin);
+		}catch(Exception e) {
+			// loginAcct已经存在
+			if(e instanceof DuplicateKeyException) {
+				throw new LoginAcctAlreadyInUseForUpdateException(CrowdConstraint.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
+			}
+		}
 	}
 
 }

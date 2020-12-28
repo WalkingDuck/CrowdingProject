@@ -4,7 +4,7 @@
 <html lang="zh-CN">
 
 <%@ include file="/WEB-INF/include-head.jsp"%>
-
+<link rel="stylesheet" href="css/pagination.css">
 <script type="text/javascript">
 
 	$(function() {
@@ -93,7 +93,7 @@
 								<tfoot>
 									<tr>
 										<td colspan="6" align="center">
-											<div id="pagination">
+											<div id="pagination" class="pagination">
 <!-- 												<li class="disabled"><a href="#">上一页</a></li>
 												<li class="active"><a href="#">1 <span
 														class="sr-only">(current)</span></a></li>

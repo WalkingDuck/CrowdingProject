@@ -39,6 +39,8 @@
 		view-name="admin-main" />
 	<mvc:view-controller path="admin/to/add/page.html"
 		view-name="admin-add" />
+	<mvc:view-controller path="role/to/page.html"
+		view-name="role-page" />
 
 	<!-- 注册拦截器 -->
 
@@ -53,6 +55,8 @@
 			
 			<!-- 登录请求不能拦截 -->
 			<mvc:exclude-mapping path="/admin/do/login.html" />
+			
+			<!-- 静态资源请求也不能拦截 -->
 			<mvc:exclude-mapping path="/jquery/**" />
 			<mvc:exclude-mapping path="/bootstrap/**" />
 			<mvc:exclude-mapping path="/css/**" />
@@ -61,6 +65,7 @@
 			<mvc:exclude-mapping path="/script/**" />
 			<mvc:exclude-mapping path="/ztree/**" />
 			<mvc:exclude-mapping path="/layer/**" />
+			<mvc:exclude-mapping path="/crowd/**" />
 			
 			<!-- 登出请求也没有必要拦截 -->
 			<mvc:exclude-mapping path="/admin/do/logout.html" />
@@ -78,6 +83,7 @@
 	<mvc:resources location="/script/" mapping="/script/**" />
 	<mvc:resources location="/ztree/" mapping="/ztree/**" />
 	<mvc:resources location="/layer/" mapping="/layer/**" />
+	<mvc:resources location="/crowd/" mapping="/crowd/**" />
 
 
 </beans>

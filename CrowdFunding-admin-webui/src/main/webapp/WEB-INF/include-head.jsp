@@ -17,6 +17,8 @@
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="script/docs.min.js"></script>
 <script type="text/javascript" src="layer/layer.js"></script>
+<script type="text/javascript" src="crowd/my-role.js"></script>
+<script type="text/javascript" src="jquery/jquery.pagination.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$(".list-group-item").click(function() {

@@ -36,6 +36,9 @@ function fillTableBody(pageInfo) {
 	
 	$("#rolePageBody").empty();
 	
+	// 当没有找到相关数据时 不显示分页
+	$("#pagination").empty();
+	
 	if(pageInfo == null || pageInfo == undefined || pageInfo.list == null || pageInfo.list.length == 0) {
 		$("#rolePageBody").append("<tr><td colspan='4'>抱歉！没有查找到相关信息</td></tr>");
 		
@@ -60,7 +63,8 @@ function fillTableBody(pageInfo) {
 		
 		var checkBtn = "<button type='button' class='btn btn-success btn-xs'><i class=' glyphicon glyphicon-check'></i></button>"
 		
-		var pencilBtn = "<button type='button' class='btn btn-primary btn-xs'><i class=' glyphicon glyphicon-pencil'></i></button>";
+		// 将roleId作为该标签的id值，方便用户点击按钮时做出响应
+		var pencilBtn = "<button id='" + roleId + "'type='button' class='btn btn-primary btn-xs pencilBtn'><i class=' glyphicon glyphicon-pencil'></i></button>";
 		
 		var removeBtn = "<button type='button' class='btn btn-danger btn-xs'><i class=' glyphicon glyphicon-remove'></i></button>";
 			

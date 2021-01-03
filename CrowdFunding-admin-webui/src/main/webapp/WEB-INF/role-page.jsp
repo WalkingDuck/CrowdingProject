@@ -15,11 +15,119 @@
 		
 		generatePage();
 		
+		// 搜索关键词后进行分页
 		$("#search").click(function() {
 			
 			window.keyword = $("#keywordInput").val();
 			
 			generatePage();
+		});
+		
+		// 点击新增后展示模态框
+		$("#showAddModalBtn").click(function() {
+			$("#addModal").modal("show");
+		});
+		
+		// 点击保存后新增角色
+		$("#saveRoleBtn").click(function() {
+			
+			// 获取文本框中的角色名称
+			// 选择id为addModal的后代中 name属性=roleName的标签
+			var roleName = $.trim($("#addModal [name = roleName]").val());
+			
+			// ajax
+			$.ajax({
+				"url": "role/save.json",
+				"type": "post", 
+				"data": {
+					"roleName": roleName
+				},
+				"dataType": "json",
+				"success": function(response) {
+					var result = response.result;
+					
+					// 保存成功
+					if(result == "SUCCESS") {
+						layer.msg("SUCCESS");
+						
+						// 重新加载分页
+						window.pageNum = 999999; // 为了跳转到最后一页显示新增的角色，设置一个无限大的pageNum
+						generatePage();
+					}
+					
+					// 保存失败
+					if(result == "FAILED") {
+						layer.msg("FAILED! " + response.message);
+					}
+					
+				},
+				"error": function(response) {
+					layer.msg(response.status + " " + response.statusText);
+				}
+			});
+			
+			// 关闭模态框
+			$("#addModal").modal("hide");
+			
+			// 清理模态框
+			$("#addModal [name = roleName]").val("");
+			
+		});
+		
+		// 绑定rolePageBody标签的所有子标签中class=pencilBtn的标签的click事件函数
+		// 点击铅笔按钮后显示模态框
+		$("#rolePageBody").on("click", ".pencilBtn", function() {
+			
+			// 打开模态框
+			$("#editModal").modal("show");
+			
+			// 获取修改对象的名称
+			var roleName = $(this).parent().prev().text();
+			
+			// 获取id
+			window.roleId = this.id;
+			
+			// 将roleName显示在模态框中
+			$("#editModal [name = roleName]").val(roleName);
+		});
+		
+		// 点击更新按钮后进行更新操作
+		$("#updateRoleBtn").click(function() {
+			
+			// 获取更新后的roleName
+			var roleName = $("#editModal [name = roleName]").val();
+			$.ajax({
+				"url": "role/update.json",
+				"type": "post",
+				"data": {
+					"id": window.roleId,
+					"name": roleName
+				},
+				"dataType": "json",
+				"success": function(response) {
+					var result = response.result;
+					
+					// 保存成功
+					if(result == "SUCCESS") {
+						layer.msg("SUCCESS");
+						
+						// 重新加载分页
+						generatePage();
+					}
+					
+					// 保存失败
+					if(result == "FAILED") {
+						layer.msg("FAILED! " + response.message);
+					}
+					
+				},
+				"error": function(response) {
+					layer.msg(response.status + " " + response.statusText);
+				}
+			});
+			
+			// 关闭模态框
+			$("#editModal").modal("hide");
 		});
 	});
 
@@ -56,8 +164,8 @@
 							style="float: right; margin-left: 10px;">
 							<i class=" glyphicon glyphicon-remove"></i> 删除
 						</button>
-						<button type="button" class="btn btn-primary"
-							style="float: right;" onclick="window.location.href='form.html'">
+						<button type="button" id="showAddModalBtn" class="btn btn-primary"
+							style="float: right;">
 							<i class="glyphicon glyphicon-plus"></i> 新增
 						</button>
 						<br>
@@ -114,5 +222,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<%@ include file="/WEB-INF/modal-role-add.jsp"%>
+	<%@ include file="/WEB-INF/modal-role-edit.jsp"%>
 </body>
 </html>

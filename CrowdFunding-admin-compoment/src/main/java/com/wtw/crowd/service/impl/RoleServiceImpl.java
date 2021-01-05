@@ -9,6 +9,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wtw.crowd.entity.Role;
+import com.wtw.crowd.entity.RoleExample;
+import com.wtw.crowd.entity.RoleExample.Criteria;
 import com.wtw.crowd.mapper.RoleMapper;
 import com.wtw.crowd.service.api.RoleService;
 
@@ -41,5 +43,15 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public void updateRole(Role role) {
 		roleMapper.updateByPrimaryKey(role);
+	}
+
+	@Override
+	public void removeRole(List<Integer> roleIdList) {
+		RoleExample roleExample = new RoleExample();
+		Criteria criteria = roleExample.createCriteria();
+		
+		criteria.andIdIn(roleIdList);
+		
+		roleMapper.deleteByExample(roleExample);
 	}
 }

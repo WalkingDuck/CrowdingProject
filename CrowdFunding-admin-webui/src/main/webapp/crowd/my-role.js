@@ -1,3 +1,27 @@
+// 显示模态框，让用户确认是否删除
+function showConfirmModal(roleArray) {
+	
+	// 显示模态框
+	$("#confirmModal").modal("show");
+	
+	// 清楚旧数据，防止叠加
+	$("#roleNameDiv").empty();
+	
+	// 声明全局变量存放要删除的role的id，方便后续传参
+	window.roleIdArray = [];
+	
+	// 遍历role数组，让roleName显示在模态框中
+	for(var i = 0; i < roleArray.length; i++) {
+		var role = roleArray[i];
+		var roleId = role.id;
+		var roleName = role.roleName;
+		$("#roleNameDiv").append(roleName + "<br/>");
+		
+		roleIdArray.push(roleId);
+	}
+}
+
+
 // 展示分页效果
 function generatePage() {
 	
@@ -57,7 +81,7 @@ function fillTableBody(pageInfo) {
 		
 		var numberTd = "<td>" + (i + 1) + "</td>";
 		
-		var checkBoxTd = "<td><input type='checkbox'></td>";
+		var checkBoxTd = "<td><input id='" + roleId + "' class='itemBox' type='checkbox'></td>";
 		
 		var roleNameTd = "<td>" + roleName + "</td>";
 		
@@ -66,7 +90,7 @@ function fillTableBody(pageInfo) {
 		// 将roleId作为该标签的id值，方便用户点击按钮时做出响应
 		var pencilBtn = "<button id='" + roleId + "'type='button' class='btn btn-primary btn-xs pencilBtn'><i class=' glyphicon glyphicon-pencil'></i></button>";
 		
-		var removeBtn = "<button type='button' class='btn btn-danger btn-xs'><i class=' glyphicon glyphicon-remove'></i></button>";
+		var removeBtn = "<button id='" + roleId + "'type='button' class='btn btn-danger btn-xs removeBtn'><i class=' glyphicon glyphicon-remove'></i></button>";
 			
 		var buttonTd = "<td>" + checkBtn + " " + pencilBtn + " " + removeBtn + "</td>";
 		

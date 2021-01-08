@@ -33,5 +33,4 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//Admin不为空 -> 已登录 -> 放行
 		return true;
 	}
-	
 }

@@ -23,4 +23,21 @@ public class MenuServiceImpl implements MenuService {
 		return menus;
 	}
 
+	@Override
+	public void saveMenu(Menu menu) {
+		menuMapper.insert(menu);
+	}
+
+	@Override
+	public void updateMenu(Menu menu) {
+		
+		// 没有传入pid 所以要调用本方法防止数据库中pid被置为null
+		menuMapper.updateByPrimaryKeySelective(menu);
+	}
+
+	@Override
+	public void removeMenu(Integer id) {
+		menuMapper.deleteByPrimaryKey(id);
+	}
+
 }

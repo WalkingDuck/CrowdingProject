@@ -1,7 +1,6 @@
 package com.wtw.crowd.mvc.handler;
 
-import java.util.List;
-
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +20,9 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
+	/**
+	 * 删除角色
+	 */
 	@ResponseBody
 	@PostMapping("/role/delete/by/role/id/array.json")
 	public ResultEntity<String> removeRoleByIdArray(@RequestBody List<Integer> roleIdList) {
@@ -29,6 +31,9 @@ public class RoleController {
 		return ResultEntity.successWithoutData();
 	}
 	
+	/**
+	 * 更新角色
+	 */
 	@ResponseBody
 	@PostMapping("/role/update.json")
 	public ResultEntity<String> updateRole(@RequestParam("id") Integer id, @RequestParam("name") String name) {
@@ -43,6 +48,9 @@ public class RoleController {
 		return ResultEntity.successWithoutData();
 	}
 	
+	/**
+	 * 新增角色
+	 */
 	@ResponseBody
 	@PostMapping("/role/save.json")
 	public ResultEntity<String> saveRole(@RequestParam("roleName") String name) {
@@ -56,6 +64,9 @@ public class RoleController {
 		return ResultEntity.successWithoutData();
 	}
 	
+	/**
+	 * 分页查询角色
+	 */
 	@ResponseBody
 	@RequestMapping("/role/get/page/info.json")
 	public ResultEntity<PageInfo<Role>> getPageInfo(

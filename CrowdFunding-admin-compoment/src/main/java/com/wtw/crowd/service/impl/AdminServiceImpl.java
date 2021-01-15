@@ -145,4 +145,20 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
+	@Override
+	public void saveAdminRoleRelationship(Integer adminId, List<Integer> roleIdList) {
+	
+		// 为避免插入重复数据 所以先删除adminId相关的数据后 重新插入
+		
+		// 删除旧数据
+		adminMapper.deleteOldRelationship(adminId);
+		
+		
+		// 判断当前用户是否还有权限
+		if(roleIdList != null && roleIdList.size() > 0) {
+			adminMapper.insertNewRelationship(adminId, roleIdList);
+		}
+		
+	}
+
 }

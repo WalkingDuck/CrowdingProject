@@ -89,11 +89,11 @@
 							style="float: right;" onclick="window.location.href='add.html'">
 							<i class="glyphicon glyphicon-plus"></i> 新增
 						</button> -->
-						
-						<a style="float: right;" class="btn btn-primary" href="admin/to/add/page.html">
-							<i class="glyphicon glyphicon-plus"></i> 新增
-						</a>
-						<br>
+
+						<a style="float: right;" class="btn btn-primary"
+							href="admin/to/add/page.html"> <i
+							class="glyphicon glyphicon-plus"></i> 新增
+						</a> <br>
 						<hr style="clear: both;">
 						<div class="table-responsive">
 							<table class="table  table-bordered">
@@ -124,23 +124,16 @@
 												<td>${admin.loginAcct }</td>
 												<td>${admin.userName }</td>
 												<td>${admin.email }</td>
-												<td>
-													<button type="button" class="btn btn-success btn-xs">
+												<td><a class="btn btn-success btn-xs"
+													href="assign/to/assign/role/page.html?adminId=${admin.id }&pageNum=${requestScope.pageInfo.pageNum }&keyword=${param.keyword }">
 														<i class=" glyphicon glyphicon-check"></i>
-													</button>
-													<!-- <button type="button" class="btn btn-primary btn-xs">
-														<i class=" glyphicon glyphicon-pencil"></i>
-													</button> -->
-													<!-- <button type="button" class="btn btn-danger btn-xs">
-														<i class=" glyphicon glyphicon-remove"></i>
-													</button>  -->
-													<a href="admin/to/edit/page.html?adminId=${admin.id }&pageNum=${requestScope.pageInfo.pageNum }&keyword=${param.keyword }" class="btn btn-primary btn-xs">
-														<i class=" glyphicon glyphicon-pencil"></i>
-													</a>
-													<a href="admin/remove/${admin.id }/${requestScope.pageInfo.pageNum }/${param.keyword }.html" class="btn btn-danger btn-xs">
-														<i class=" glyphicon glyphicon-remove"></i>
-													</a>
-												</td>
+												</a> <a
+													href="admin/to/edit/page.html?adminId=${admin.id }&pageNum=${requestScope.pageInfo.pageNum }&keyword=${param.keyword }"
+													class="btn btn-primary btn-xs"> <i
+														class=" glyphicon glyphicon-pencil"></i></a> <a
+													href="admin/remove/${admin.id }/${requestScope.pageInfo.pageNum }/${param.keyword }.html"
+													class="btn btn-danger btn-xs"> <i
+														class=" glyphicon glyphicon-remove"></i></a></td>
 											</tr>
 										</c:forEach>
 									</c:if>

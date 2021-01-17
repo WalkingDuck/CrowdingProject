@@ -1,3 +1,84 @@
+// 显示auth的树性结构
+function fillAuthTree() {
+	
+	// 查询auth数据
+	var ajaxReturn = $.ajax({
+		"url": "assign/get/all/auth",
+		"type": "post",
+		"dataType": "json",
+		"async": false
+	});
+	
+	// 发生异常
+	if(ajaxReturn.status != 200) {
+		layer.msg("Failed! :" + ajaxReturn.status + ", " + ajaxReturn.statusText);
+		return ;
+	}
+	
+	// 获取auth列表
+	var authList = ajaxReturn.responseJSON.data;
+	
+	// ztree配置
+	var setting = {
+		"data": {
+			"simpleData": {
+				// 开启simpleData 让ztree自动显示树形结构
+				"enable": true,
+				"pIdKey": "categoryId"	// 让ztree用categoryId字段 来作为pid进行分层
+			},
+			"key": {
+				"name": "title"	// 设置让ztree将返回对象的title属性作为显示的名称
+			} 
+		},	
+		"check": {
+			"enable": true		// 让树形菜单每个元素前显示多选框
+		}
+	};
+	
+	// 生成树形菜单
+	$.fn.zTree.init($("#authTreeDemo"), setting, authList);
+	
+	// 获取ztree对象
+	var treeObj=$.fn.zTree.getZTreeObj("authTreeDemo");
+	
+	// 让树形菜单每个节点默认展开
+	treeObj.expandAll(true);
+	
+	// 查询已分配的auth
+	ajaxReturn = $.ajax({
+		"url": "assign/get/assigned/auth/id/by/role/id",
+		"type": "post",
+		"data": {
+			"roleId": window.roleId
+		},
+		"dataType": "json",
+		"async": false
+	});
+	
+	// 发生异常
+	if(ajaxReturn.status != 200) {
+		layer.msg("Failed! :" + ajaxReturn.status + ", " + ajaxReturn.statusText);
+		return ;
+	}
+	
+	var authIdArray = ajaxReturn.responseJSON.data;
+	
+	// 将已分配的auth打勾
+	for(var i = 0; i < authIdArray.length; i++) {
+		var authId = authIdArray[i];
+		
+		// 根据authId找到对应的节点
+		var treeNode = treeObj.getNodeByParam("id", authId);
+		
+		// 将对应节点设置为选中状态
+		var checked =  true;	// 设置节点是否选中
+		var checkTypeFlag = false;	// 设置节点是否联动
+		treeObj.checkNode(treeNode, checked, checkTypeFlag);
+	}
+	
+}
+
+
 // 显示模态框，让用户确认是否删除
 function showConfirmModal(roleArray) {
 	
@@ -85,7 +166,7 @@ function fillTableBody(pageInfo) {
 		
 		var roleNameTd = "<td>" + roleName + "</td>";
 		
-		var checkBtn = "<button type='button' class='btn btn-success btn-xs'><i class=' glyphicon glyphicon-check'></i></button>"
+		var checkBtn = "<button id='" + roleId + "'type='button' class='btn btn-success btn-xs checkBtn'><i class=' glyphicon glyphicon-check'></i></button>"
 		
 		// 将roleId作为该标签的id值，方便用户点击按钮时做出响应
 		var pencilBtn = "<button id='" + roleId + "'type='button' class='btn btn-primary btn-xs pencilBtn'><i class=' glyphicon glyphicon-pencil'></i></button>";

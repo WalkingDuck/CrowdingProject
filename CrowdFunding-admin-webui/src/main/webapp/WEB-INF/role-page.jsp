@@ -5,6 +5,8 @@
 
 <%@ include file="/WEB-INF/include-head.jsp"%>
 <link rel="stylesheet" href="css/pagination.css">
+<link rel="stylesheet" href="ztree/zTreeStyle.css">
+<script type="text/javascript" src="ztree/jquery.ztree.all-3.5.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		// 为分页操作准备初始化数据
@@ -234,6 +236,70 @@
 			// 调用函数打开模态框
 			showConfirmModal(roleArray);
 		});
+		
+		// 绑定权限分配按钮的响应函数
+		$("#rolePageBody").on("click", ".checkBtn", function() {
+			
+			// 显示模态框
+			$("#assignModal").modal("show"); 
+			
+			// 获取到当前按钮的id
+			window.roleId = this.id;
+			
+			// 显示权限菜单
+			fillAuthTree();
+		});
+		
+		// 给权限分配模态框绑定响应函数
+		$("#assignBtn").click(function() {
+			
+			// 存放被选中的节点的id
+			var authIdArray = [];
+			
+			// 获取ztree对象
+			var treeObj=$.fn.zTree.getZTreeObj("authTreeDemo");
+			
+			// 获取被勾选的节点
+			var checkedNodes = treeObj.getCheckedNodes();
+			
+			// 遍历被勾选的节点
+			for(var i = 0; i < checkedNodes.length; i++) {
+				var checkedNode = checkedNodes[i];
+				
+				var authId = checkedNode.id;
+				
+				authIdArray.push(authId);
+			}
+			
+			var requestBody = {
+				"authIdArray": authIdArray,
+				"roleId": [window.roleId]	// 为方便后台接收 将roleId也作为数组传入
+			};
+			
+			requestBody = JSON.stringify(requestBody);
+			$.ajax({
+				"url": "assign/do/role/assign/auth",
+				"type": "post",
+				"data": requestBody,
+				"contentType": "application/json;charset=UTF-8",
+				"dataType": "json",
+				"success": function(response) {
+					var result = response.result;
+					if(result == "SUCCESS") {
+						layer.msg("SUCCESS");
+					} else {
+						layer.msg("FAILED! " + response.message);
+					}
+					
+				},
+				"error" : function(response) {
+					layer.msg(response.status + " " + response.statusText);
+				}
+			});
+			
+			// 关闭模态框
+			$("#assignModal").modal("hide"); 
+		});
 	});
 </script>
 
@@ -330,5 +396,6 @@
 	<%@ include file="/WEB-INF/modal-role-add.jsp"%>
 	<%@ include file="/WEB-INF/modal-role-edit.jsp"%>
 	<%@ include file="/WEB-INF/modal-role-confirm.jsp"%>
+	<%@ include file="/WEB-INF/modal-role-assign-auth.jsp"%>
 </body>
 </html>

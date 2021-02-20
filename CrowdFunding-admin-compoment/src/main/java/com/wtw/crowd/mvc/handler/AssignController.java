@@ -76,7 +76,6 @@ public class AssignController {
 			@RequestParam("pageNum") Integer pageNum, @RequestParam("keyword") String keyword,
 			@RequestParam(value = "roleIdList", required = false) List<Integer> roleIdList) {
 		
-		System.out.println(roleIdList);
 		adminService.saveAdminRoleRelationship(adminId, roleIdList);
 		
 		return "redirect:/admin/get/page.html?pageNum=" + pageNum + "&keyword=" + keyword;

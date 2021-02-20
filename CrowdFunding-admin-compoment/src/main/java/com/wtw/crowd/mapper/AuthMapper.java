@@ -29,6 +29,8 @@ public interface AuthMapper {
     int updateByPrimaryKey(Auth record);
 
 	List<Integer> selectAssignedAuthIdByRoleId(@Param("roleId") Integer roleId);
+	
+	List<String> selectAssignedAuthNameByAdminId(@Param("adminId") Integer adminId);
 
 	void deleteOldRelationship(@Param("roleId") Integer roleId);
 

@@ -16,6 +16,8 @@ public class CrowdConstraint {
 	public static final String MESSAGE_SYSTEM_ERROR_LOGIN_ACCT_NOT_UNIQUE = "错误！登录账号不唯一！";
 
 	public static final String ATTR_NAME_PAGE_INFO = "pageInfo";
+
+	public static final String MESSAGE_ACCESS_DENIED = "抱歉！您没有权限访问该页面";
 	
 	
 }

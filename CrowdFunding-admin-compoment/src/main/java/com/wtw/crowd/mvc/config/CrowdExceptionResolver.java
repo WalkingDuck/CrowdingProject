@@ -22,6 +22,7 @@ import com.wtw.crowd.util.ResultEntity;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+	
 	@ExceptionHandler(LoginAcctAlreadyInUseForUpdateException.class)
 	public ModelAndView resolveLoginAcctAlreadyInUseException(LoginAcctAlreadyInUseForUpdateException exception, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -53,6 +54,13 @@ public class CrowdExceptionResolver {
 		return commonResolver("system-error", exception, request, response);
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ModelAndView resolveException (Exception exception, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String viewName = "system-error";
+		return commonResolver(viewName, exception, request, response);
+	}
+	
 	private ModelAndView commonResolver(String viewName, Exception exception, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		boolean requestType = CrowdUtil.judgeRequestType(request);
@@ -68,7 +76,7 @@ public class CrowdExceptionResolver {
 
 			// 返回响应
 			response.getWriter().write(json);
-
+			
 			// 上面用response进行了响应 所以不返回ModelAndView
 			return null;
 		}
@@ -76,7 +84,6 @@ public class CrowdExceptionResolver {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject(CrowdConstraint.ATTR_NAME_EXCEPTION, exception);
 		mv.setViewName(viewName);
-
 		return mv;
 	}
 }

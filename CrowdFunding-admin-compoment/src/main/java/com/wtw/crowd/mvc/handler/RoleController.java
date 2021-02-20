@@ -2,6 +2,7 @@ package com.wtw.crowd.mvc.handler;
 
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +67,10 @@ public class RoleController {
 	
 	/**
 	 * 分页查询角色
+	 * 当使用@PreAuthorize注解时对权限不足的处理应当在异常映射器(CrowdExceptionResolver)中解决
+	 * 如果权限校验是在WebAppSecurityConfig中设置时权限不足的处理就应该在WebAppSecurityConfig解决
 	 */
+	@PreAuthorize("hasRole('部长')")
 	@ResponseBody
 	@RequestMapping("/role/get/page/info.json")
 	public ResultEntity<PageInfo<Role>> getPageInfo(

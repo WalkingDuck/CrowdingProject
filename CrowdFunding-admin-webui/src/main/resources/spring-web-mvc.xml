@@ -44,21 +44,21 @@
 	<mvc:view-controller path="menu/to/page.html"
 		view-name="menu-page" />
 
+	<!-- 使用springsecurity后，取消使用拦截器，避免请求被拦截 -->
 	<!-- 注册拦截器 -->
-
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
-			<!-- 配置拦截路径 /**表示拦截所有路径 -->
+			配置拦截路径 /**表示拦截所有路径
 			<mvc:mapping path="/**"/>
 			
-			<!-- 配置放行的请求路径 -->
-			<!-- 请求登陆页面不能拦截 -->
+			配置放行的请求路径
+			请求登陆页面不能拦截
 			<mvc:exclude-mapping path="/admin/to/login/page.html" />
 			
-			<!-- 登录请求不能拦截 -->
+			登录请求不能拦截
 			<mvc:exclude-mapping path="/admin/do/login.html" />
 			
-			<!-- 静态资源请求也不能拦截 -->
+			静态资源请求也不能拦截
 			<mvc:exclude-mapping path="/jquery/**" />
 			<mvc:exclude-mapping path="/bootstrap/**" />
 			<mvc:exclude-mapping path="/css/**" />
@@ -69,11 +69,11 @@
 			<mvc:exclude-mapping path="/layer/**" />
 			<mvc:exclude-mapping path="/crowd/**" />
 			
-			<!-- 登出请求也没有必要拦截 -->
+			登出请求也没有必要拦截
 			<mvc:exclude-mapping path="/admin/do/logout.html" />
 			<bean class="com.wtw.crowd.mvc.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 
 	<!-- 配置静态资源映射 -->

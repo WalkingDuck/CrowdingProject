@@ -18,6 +18,10 @@ public class CrowdConstraint {
 	public static final String ATTR_NAME_PAGE_INFO = "pageInfo";
 
 	public static final String MESSAGE_ACCESS_DENIED = "抱歉！您没有权限访问该页面";
+
+	public static final String ATTR_NAME_MESSAGE = "message";
+
+	public static final String ATTR_NAME_lOGIN_MEMBER = "loginMember";
 	
 	
 }
